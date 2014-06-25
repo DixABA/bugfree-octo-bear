@@ -5,17 +5,33 @@
  */
 package BOB;
 
+import dixaba.JImagePanel;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author Администратор
  */
 public class mainForm extends javax.swing.JFrame {
 
+    BufferedImage before, after;
+    private final int width;
+    private final int height;
+    Point plBefore;
+
     /**
      * Creates new form mainForm
      */
     public mainForm() {
         initComponents();
+        width = this.picPanel.getSize().width;
+        height = this.picPanel.getSize().height;
+        plBefore = picPanel.getLocation();
     }
 
     /**
@@ -60,6 +76,7 @@ public class mainForm extends javax.swing.JFrame {
         bit2Panel = new javax.swing.JPanel();
         bit2Slider = new javax.swing.JSlider();
         bit2Label = new javax.swing.JLabel();
+        picPanel = new dixaba.JImagePanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -363,21 +380,38 @@ public class mainForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        picPanel.setBackground(new java.awt.Color(255, 102, 0));
+
+        javax.swing.GroupLayout picPanelLayout = new javax.swing.GroupLayout(picPanel);
+        picPanel.setLayout(picPanelLayout);
+        picPanelLayout.setHorizontalGroup(
+            picPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        picPanelLayout.setVerticalGroup(
+            picPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 399, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(setupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(picPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(setupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 411, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(picPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(setupPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -386,7 +420,39 @@ public class mainForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
-        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Выберите картинку");
+        fc.setFileFilter(new FileNameExtensionFilter("Картинки", "jpg", "png", "gif", "bmp", "jpeg"));
+        if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            try {
+                after = before;
+                before = ImageIO.read(fc.getSelectedFile());
+                int pwidth = before.getWidth();
+                int pheight = before.getHeight();
+
+                if ((pheight * 1.0 / pwidth) > (this.height * 1.0 / this.height)) {
+                    picPanel.setSize((int) Math.round(pwidth * this.height * 1.0 / pheight), this.height);
+                } else {
+                    picPanel.setSize(this.width, (int) Math.round(pheight * this.width * 1.0 / pwidth)
+                    );
+                }
+
+                picPanel.setImg(before);
+
+                Point pl = new Point(plBefore);
+
+                pl.x += (this.width - picPanel.getWidth()) / 2;
+                pl.y += (this.height - picPanel.getHeight()) / 2;
+
+                picPanel.setLocation(pl);
+                
+                pl=null;
+
+                picPanel.repaint();
+                this.setTitle("ABACABA!!! " + picPanel.getSize().width + "*" + picPanel.getSize().height);
+            } catch (IOException ex) {
+            }
+        }
     }//GEN-LAST:event_openBtnActionPerformed
 
     /**
@@ -455,6 +521,7 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton openBtn;
+    private dixaba.JImagePanel picPanel;
     private javax.swing.JComboBox presets;
     private javax.swing.JButton saveBtn;
     private javax.swing.JPanel setupPanel;
