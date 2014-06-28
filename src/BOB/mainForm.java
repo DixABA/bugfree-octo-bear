@@ -28,11 +28,102 @@ public class mainForm extends javax.swing.JFrame {
     Dimension size;
 
     int processInt(int x) {
-        return x ^ (mask[0] * (65536 / 16));
+        int tmp, res = 0xff000000;
+
+        String edtit = Integer.toHexString(x);
+        for (int offset = 0; offset < 3; offset++) {
+            tmp = 0;
+            for (int bit = 0; bit < 8; bit++) {
+                int aaa = 0;
+
+                switch (mask[bit]) {
+                    case 1: {
+                        aaa = (x >> (offset * 8 + 7)) & 1;
+                        break;
+                    }
+                    case 2: {
+                        aaa = (x >> (offset * 8 + 6)) & 1;
+                        break;
+                    }
+                    case 3: {
+                        aaa = (x >> (offset * 8 + 5)) & 1;
+                        break;
+                    }
+                    case 4: {
+                        aaa = (x >> (offset * 8 + 4)) & 1;
+                        break;
+                    }
+                    case 5: {
+                        aaa = (x >> (offset * 8 + 3)) & 1;
+                        break;
+                    }
+                    case 6: {
+                        aaa = (x >> (offset * 8 + 2)) & 1;
+                        break;
+                    }
+                    case 7: {
+                        aaa = (x >> (offset * 8 + 1)) & 1;
+                        break;
+                    }
+                    case 8: {
+                        aaa = (x >> (offset * 8)) & 1;
+                        break;
+                    }
+                    case -1: {
+                        aaa = 1 ^ ((x >> (offset * 8 + 7)) & 1);
+                        break;
+                    }
+                    case -2: {
+                        aaa = 1 ^ ((x >> (offset * 8 + 6)) & 1);
+                        break;
+                    }
+                    case -3: {
+                        aaa = 1 ^ ((x >> (offset * 8 + 5)) & 1);
+                        break;
+                    }
+                    case -4: {
+                        aaa = 1 ^ ((x >> (offset * 8 + 4)) & 1);
+                        break;
+                    }
+                    case -5: {
+                        aaa = 1 ^ ((x >> (offset * 8 + 3)) & 1);
+                        break;
+                    }
+                    case -6: {
+                        aaa = 1 ^ ((x >> (offset * 8 + 2)) & 1);
+                        break;
+                    }
+                    case -7: {
+                        aaa = 1 ^ ((x >> (offset * 8 + 1)) & 1);
+                        break;
+                    }
+                    case -8: {
+                        aaa = 1 ^ ((x >> (offset * 8)) & 1);
+                        break;
+                    }
+                    case 9: {
+                        aaa = 1;
+                        break;
+                    }
+                    default: {
+                        aaa = 0;
+                    }
+                }
+
+                tmp = tmp | (aaa << (7 - bit));
+            }
+            res = res | (tmp << (offset * 8));
+        }
+        return res;
     }
 
     void processImage() {
         try {
+
+//            for (int i = 0; i < 8; i++) {
+//                mask[i] = -(i+1);
+//            }
+
             int[] argb = new int[before.getWidth() * before.getHeight()];
             before.getRGB(0, 0, before.getWidth(), before.getHeight(), argb, 0, before.getWidth());
 
@@ -51,7 +142,7 @@ public class mainForm extends javax.swing.JFrame {
             this.picPanel.setImg(after);
             this.picPanel.repaint();
 
-            //   argb = null;
+            argb = null;
         } catch (Exception ex) {
         }
     }
@@ -538,7 +629,7 @@ public class mainForm extends javax.swing.JFrame {
         if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             try {
                 before = ImageIO.read(fc.getSelectedFile());
-                after = before;
+                after = ImageIO.read(fc.getSelectedFile());
                 int pwidth = before.getWidth();
                 int pheight = before.getHeight();
 
