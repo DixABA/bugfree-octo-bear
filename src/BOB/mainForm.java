@@ -5,7 +5,7 @@
  */
 package BOB;
 
-import dixaba.JImagePanel;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -22,7 +22,39 @@ public class mainForm extends javax.swing.JFrame {
     BufferedImage before, after;
     private final int width;
     private final int height;
-    Point plBefore;
+    Point plBefore, pl = new Point();
+    JFileChooser fc = new JFileChooser();
+    int[] mask = new int[8];
+    Dimension size;
+
+    int processInt(int x) {
+        return x ^ (mask[0] * (65536 / 16));
+    }
+
+    void processImage() {
+        try {
+            int[] argb = new int[before.getWidth() * before.getHeight()];
+            before.getRGB(0, 0, before.getWidth(), before.getHeight(), argb, 0, before.getWidth());
+
+            for (int i = 0; i < argb.length; i++) {
+                argb[i] = processInt(argb[i]);
+            }
+
+            after.setRGB(0, 0, before.getWidth(), before.getHeight(), argb, 0, before.getWidth());
+
+            picPanel.setPreferredSize(size);
+            picPanel.setMaximumSize(size);
+            picPanel.setMinimumSize(size);
+            this.picPanel.setSize(size);
+            this.picPanel.setLocation(pl);
+
+            this.picPanel.setImg(after);
+            this.picPanel.repaint();
+
+            //   argb = null;
+        } catch (Exception ex) {
+        }
+    }
 
     /**
      * Creates new form mainForm
@@ -32,6 +64,8 @@ public class mainForm extends javax.swing.JFrame {
         width = this.picPanel.getSize().width;
         height = this.picPanel.getSize().height;
         plBefore = picPanel.getLocation();
+        fc.setDialogTitle("Выберите картинку");
+        fc.setFileFilter(new FileNameExtensionFilter("Картинки", "jpg", "png", "gif", "bmp", "jpeg"));
     }
 
     /**
@@ -120,6 +154,16 @@ public class mainForm extends javax.swing.JFrame {
         bit5Slider.setMaximum(17);
         bit5Slider.setOrientation(javax.swing.JSlider.VERTICAL);
         bit5Slider.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        bit5Slider.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                bit5SliderMouseDragged(evt);
+            }
+        });
+        bit5Slider.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                bit5SliderKeyReleased(evt);
+            }
+        });
 
         bit5Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         bit5Label.setText("00");
@@ -148,6 +192,16 @@ public class mainForm extends javax.swing.JFrame {
         bit4Slider.setMaximum(17);
         bit4Slider.setOrientation(javax.swing.JSlider.VERTICAL);
         bit4Slider.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        bit4Slider.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                bit4SliderMouseDragged(evt);
+            }
+        });
+        bit4Slider.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                bit4SliderKeyReleased(evt);
+            }
+        });
 
         bit4Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         bit4Label.setText("00");
@@ -176,6 +230,16 @@ public class mainForm extends javax.swing.JFrame {
         bit8Slider.setMaximum(17);
         bit8Slider.setOrientation(javax.swing.JSlider.VERTICAL);
         bit8Slider.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        bit8Slider.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                bit8SliderMouseDragged(evt);
+            }
+        });
+        bit8Slider.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                bit8SliderKeyReleased(evt);
+            }
+        });
 
         bit8Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         bit8Label.setText("00");
@@ -204,6 +268,16 @@ public class mainForm extends javax.swing.JFrame {
         bit3Slider.setMaximum(17);
         bit3Slider.setOrientation(javax.swing.JSlider.VERTICAL);
         bit3Slider.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        bit3Slider.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                bit3SliderMouseDragged(evt);
+            }
+        });
+        bit3Slider.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                bit3SliderKeyReleased(evt);
+            }
+        });
 
         bit3Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         bit3Label.setText("00");
@@ -232,6 +306,16 @@ public class mainForm extends javax.swing.JFrame {
         bit6Slider.setMaximum(17);
         bit6Slider.setOrientation(javax.swing.JSlider.VERTICAL);
         bit6Slider.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        bit6Slider.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                bit6SliderMouseDragged(evt);
+            }
+        });
+        bit6Slider.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                bit6SliderKeyReleased(evt);
+            }
+        });
 
         bit6Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         bit6Label.setText("00");
@@ -260,6 +344,16 @@ public class mainForm extends javax.swing.JFrame {
         bit1Slider.setMaximum(17);
         bit1Slider.setOrientation(javax.swing.JSlider.VERTICAL);
         bit1Slider.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        bit1Slider.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                bit1SliderMouseDragged(evt);
+            }
+        });
+        bit1Slider.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                bit1SliderKeyReleased(evt);
+            }
+        });
 
         bit1Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         bit1Label.setText("00");
@@ -288,6 +382,16 @@ public class mainForm extends javax.swing.JFrame {
         bit7Slider.setMaximum(17);
         bit7Slider.setOrientation(javax.swing.JSlider.VERTICAL);
         bit7Slider.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        bit7Slider.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                bit7SliderMouseDragged(evt);
+            }
+        });
+        bit7Slider.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                bit7SliderKeyReleased(evt);
+            }
+        });
 
         bit7Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         bit7Label.setText("00");
@@ -316,6 +420,16 @@ public class mainForm extends javax.swing.JFrame {
         bit2Slider.setMaximum(17);
         bit2Slider.setOrientation(javax.swing.JSlider.VERTICAL);
         bit2Slider.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        bit2Slider.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                bit2SliderMouseDragged(evt);
+            }
+        });
+        bit2Slider.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                bit2SliderKeyReleased(evt);
+            }
+        });
 
         bit2Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         bit2Label.setText("00");
@@ -362,7 +476,7 @@ public class mainForm extends javax.swing.JFrame {
                 .addComponent(bit7Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bit8Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         setupPanelLayout.setVerticalGroup(
             setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,7 +500,7 @@ public class mainForm extends javax.swing.JFrame {
         picPanel.setLayout(picPanelLayout);
         picPanelLayout.setHorizontalGroup(
             picPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 384, Short.MAX_VALUE)
         );
         picPanelLayout.setVerticalGroup(
             picPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,19 +513,19 @@ public class mainForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(picPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(picPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(setupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(picPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(setupPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -420,13 +534,11 @@ public class mainForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
-        JFileChooser fc = new JFileChooser();
-        fc.setDialogTitle("Выберите картинку");
-        fc.setFileFilter(new FileNameExtensionFilter("Картинки", "jpg", "png", "gif", "bmp", "jpeg"));
+
         if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             try {
-                after = before;
                 before = ImageIO.read(fc.getSelectedFile());
+                after = before;
                 int pwidth = before.getWidth();
                 int pheight = before.getHeight();
 
@@ -439,21 +551,881 @@ public class mainForm extends javax.swing.JFrame {
 
                 picPanel.setImg(before);
 
-                Point pl = new Point(plBefore);
+                pl.setLocation(plBefore);
 
                 pl.x += (this.width - picPanel.getWidth()) / 2;
                 pl.y += (this.height - picPanel.getHeight()) / 2;
 
                 picPanel.setLocation(pl);
-                
-                pl=null;
 
                 picPanel.repaint();
+
+                size = picPanel.getSize();
+                picPanel.setPreferredSize(size);
+                picPanel.setMaximumSize(size);
+                picPanel.setMinimumSize(size);
+
                 this.setTitle("ABACABA!!! " + picPanel.getSize().width + "*" + picPanel.getSize().height);
             } catch (IOException ex) {
             }
         }
     }//GEN-LAST:event_openBtnActionPerformed
+
+    void bit1() {
+        String res = "";
+        switch (bit1Slider.getValue()) {
+            case 17: {//0
+                res = "0";
+                mask[0] = 0;
+                break;
+            }
+            case 16: {//1
+                res = "1";
+                mask[0] = 9;
+                break;
+            }
+            case 15: {//a
+                res = "a";
+                mask[0] = 1;
+                break;
+            }
+            case 14: {//b
+                res = "b";
+                mask[0] = 2;
+                break;
+            }
+            case 13: {//c
+                res = "c";
+                mask[0] = 3;
+                break;
+            }
+            case 12: {//d
+                res = "d";
+                mask[0] = 4;
+                break;
+            }
+            case 11: {//e
+                res = "e";
+                mask[0] = 5;
+                break;
+            }
+            case 10: {//f
+                res = "f";
+                mask[0] = 6;
+                break;
+            }
+            case 9: {//g
+                res = "g";
+                mask[0] = 7;
+                break;
+            }
+            case 8: {//h
+                res = "h";
+                mask[0] = 8;
+                break;
+            }
+            case 7: {//-a
+                res = "-a";
+                mask[0] = -1;
+                break;
+            }
+            case 6: {//-b
+                res = "-b";
+                mask[0] = -2;
+                break;
+            }
+            case 5: {//-c
+                res = "-c";
+                mask[0] = -3;
+                break;
+            }
+            case 4: {//-d
+                res = "-d";
+                mask[0] = -4;
+                break;
+            }
+            case 3: {//-e
+                res = "-e";
+                mask[0] = -5;
+                break;
+            }
+            case 2: {//-f
+                res = "-f";
+                mask[0] = -6;
+                break;
+            }
+            case 1: {//-g
+                res = "-g";
+                mask[0] = -7;
+                break;
+            }
+            case 0: {//-h
+                res = "-h";
+                mask[0] = -8;
+                break;
+            }
+        }
+
+        bit1Label.setText(res);
+        processImage();
+    }
+
+    void bit2() {
+        String res = "";
+        switch (bit2Slider.getValue()) {
+            case 17: {//0
+                res = "0";
+                mask[1] = 0;
+                break;
+            }
+            case 16: {//1
+                res = "1";
+                mask[1] = 9;
+                break;
+            }
+            case 15: {//a
+                res = "a";
+                mask[1] = 1;
+                break;
+            }
+            case 14: {//b
+                res = "b";
+                mask[1] = 2;
+                break;
+            }
+            case 13: {//c
+                res = "c";
+                mask[1] = 3;
+                break;
+            }
+            case 12: {//d
+                res = "d";
+                mask[1] = 4;
+                break;
+            }
+            case 11: {//e
+                res = "e";
+                mask[1] = 5;
+                break;
+            }
+            case 10: {//f
+                res = "f";
+                mask[1] = 6;
+                break;
+            }
+            case 9: {//g
+                res = "g";
+                mask[1] = 7;
+                break;
+            }
+            case 8: {//h
+                res = "h";
+                mask[1] = 8;
+                break;
+            }
+            case 7: {//-a
+                res = "-a";
+                mask[1] = -1;
+                break;
+            }
+            case 6: {//-b
+                res = "-b";
+                mask[1] = -2;
+                break;
+            }
+            case 5: {//-c
+                res = "-c";
+                mask[1] = -3;
+                break;
+            }
+            case 4: {//-d
+                res = "-d";
+                mask[1] = -4;
+                break;
+            }
+            case 3: {//-e
+                res = "-e";
+                mask[1] = -5;
+                break;
+            }
+            case 2: {//-f
+                res = "-f";
+                mask[1] = -6;
+                break;
+            }
+            case 1: {//-g
+                res = "-g";
+                mask[1] = -7;
+                break;
+            }
+            case 0: {//-h
+                res = "-h";
+                mask[1] = -8;
+                break;
+            }
+        }
+
+        bit2Label.setText(res);
+        processImage();
+    }
+
+    void bit3() {
+        String res = "";
+        switch (bit3Slider.getValue()) {
+            case 17: {//0
+                res = "0";
+                mask[2] = 0;
+                break;
+            }
+            case 16: {//1
+                res = "1";
+                mask[2] = 9;
+                break;
+            }
+            case 15: {//a
+                res = "a";
+                mask[2] = 1;
+                break;
+            }
+            case 14: {//b
+                res = "b";
+                mask[2] = 2;
+                break;
+            }
+            case 13: {//c
+                res = "c";
+                mask[2] = 3;
+                break;
+            }
+            case 12: {//d
+                res = "d";
+                mask[2] = 4;
+                break;
+            }
+            case 11: {//e
+                res = "e";
+                mask[2] = 5;
+                break;
+            }
+            case 10: {//f
+                res = "f";
+                mask[2] = 6;
+                break;
+            }
+            case 9: {//g
+                res = "g";
+                mask[2] = 7;
+                break;
+            }
+            case 8: {//h
+                res = "h";
+                mask[2] = 8;
+                break;
+            }
+            case 7: {//-a
+                res = "-a";
+                mask[2] = -1;
+                break;
+            }
+            case 6: {//-b
+                res = "-b";
+                mask[2] = -2;
+                break;
+            }
+            case 5: {//-c
+                res = "-c";
+                mask[2] = -3;
+                break;
+            }
+            case 4: {//-d
+                res = "-d";
+                mask[2] = -4;
+                break;
+            }
+            case 3: {//-e
+                res = "-e";
+                mask[2] = -5;
+                break;
+            }
+            case 2: {//-f
+                res = "-f";
+                mask[2] = -6;
+                break;
+            }
+            case 1: {//-g
+                res = "-g";
+                mask[2] = -7;
+                break;
+            }
+            case 0: {//-h
+                res = "-h";
+                mask[2] = -8;
+                break;
+            }
+        }
+
+        bit3Label.setText(res);
+        processImage();
+    }
+
+    void bit4() {
+        String res = "";
+        switch (bit4Slider.getValue()) {
+            case 17: {//0
+                res = "0";
+                mask[3] = 0;
+                break;
+            }
+            case 16: {//1
+                res = "1";
+                mask[3] = 9;
+                break;
+            }
+            case 15: {//a
+                res = "a";
+                mask[3] = 1;
+                break;
+            }
+            case 14: {//b
+                res = "b";
+                mask[3] = 2;
+                break;
+            }
+            case 13: {//c
+                res = "c";
+                mask[3] = 3;
+                break;
+            }
+            case 12: {//d
+                res = "d";
+                mask[3] = 4;
+                break;
+            }
+            case 11: {//e
+                res = "e";
+                mask[3] = 5;
+                break;
+            }
+            case 10: {//f
+                res = "f";
+                mask[3] = 6;
+                break;
+            }
+            case 9: {//g
+                res = "g";
+                mask[3] = 7;
+                break;
+            }
+            case 8: {//h
+                res = "h";
+                mask[3] = 8;
+                break;
+            }
+            case 7: {//-a
+                res = "-a";
+                mask[3] = -1;
+                break;
+            }
+            case 6: {//-b
+                res = "-b";
+                mask[3] = -2;
+                break;
+            }
+            case 5: {//-c
+                res = "-c";
+                mask[3] = -3;
+                break;
+            }
+            case 4: {//-d
+                res = "-d";
+                mask[3] = -4;
+                break;
+            }
+            case 3: {//-e
+                res = "-e";
+                mask[3] = -5;
+                break;
+            }
+            case 2: {//-f
+                res = "-f";
+                mask[3] = -6;
+                break;
+            }
+            case 1: {//-g
+                res = "-g";
+                mask[3] = -7;
+                break;
+            }
+            case 0: {//-h
+                res = "-h";
+                mask[3] = -8;
+                break;
+            }
+        }
+
+        bit4Label.setText(res);
+        processImage();
+    }
+
+    void bit5() {
+        String res = "";
+        switch (bit5Slider.getValue()) {
+            case 17: {//0
+                res = "0";
+                mask[4] = 0;
+                break;
+            }
+            case 16: {//1
+                res = "1";
+                mask[4] = 9;
+                break;
+            }
+            case 15: {//a
+                res = "a";
+                mask[4] = 1;
+                break;
+            }
+            case 14: {//b
+                res = "b";
+                mask[4] = 2;
+                break;
+            }
+            case 13: {//c
+                res = "c";
+                mask[4] = 3;
+                break;
+            }
+            case 12: {//d
+                res = "d";
+                mask[4] = 4;
+                break;
+            }
+            case 11: {//e
+                res = "e";
+                mask[4] = 5;
+                break;
+            }
+            case 10: {//f
+                res = "f";
+                mask[4] = 6;
+                break;
+            }
+            case 9: {//g
+                res = "g";
+                mask[4] = 7;
+                break;
+            }
+            case 8: {//h
+                res = "h";
+                mask[4] = 8;
+                break;
+            }
+            case 7: {//-a
+                res = "-a";
+                mask[4] = -1;
+                break;
+            }
+            case 6: {//-b
+                res = "-b";
+                mask[4] = -2;
+                break;
+            }
+            case 5: {//-c
+                res = "-c";
+                mask[4] = -3;
+                break;
+            }
+            case 4: {//-d
+                res = "-d";
+                mask[4] = -4;
+                break;
+            }
+            case 3: {//-e
+                res = "-e";
+                mask[4] = -5;
+                break;
+            }
+            case 2: {//-f
+                res = "-f";
+                mask[4] = -6;
+                break;
+            }
+            case 1: {//-g
+                res = "-g";
+                mask[4] = -7;
+                break;
+            }
+            case 0: {//-h
+                res = "-h";
+                mask[4] = -8;
+                break;
+            }
+        }
+
+        bit5Label.setText(res);
+        processImage();
+    }
+
+    void bit6() {
+        String res = "";
+        switch (bit6Slider.getValue()) {
+            case 17: {//0
+                res = "0";
+                mask[5] = 0;
+                break;
+            }
+            case 16: {//1
+                res = "1";
+                mask[5] = 9;
+                break;
+            }
+            case 15: {//a
+                res = "a";
+                mask[5] = 1;
+                break;
+            }
+            case 14: {//b
+                res = "b";
+                mask[5] = 2;
+                break;
+            }
+            case 13: {//c
+                res = "c";
+                mask[5] = 3;
+                break;
+            }
+            case 12: {//d
+                res = "d";
+                mask[5] = 4;
+                break;
+            }
+            case 11: {//e
+                res = "e";
+                mask[5] = 5;
+                break;
+            }
+            case 10: {//f
+                res = "f";
+                mask[5] = 6;
+                break;
+            }
+            case 9: {//g
+                res = "g";
+                mask[5] = 7;
+                break;
+            }
+            case 8: {//h
+                res = "h";
+                mask[5] = 8;
+                break;
+            }
+            case 7: {//-a
+                res = "-a";
+                mask[5] = -1;
+                break;
+            }
+            case 6: {//-b
+                res = "-b";
+                mask[5] = -2;
+                break;
+            }
+            case 5: {//-c
+                res = "-c";
+                mask[5] = -3;
+                break;
+            }
+            case 4: {//-d
+                res = "-d";
+                mask[5] = -4;
+                break;
+            }
+            case 3: {//-e
+                res = "-e";
+                mask[5] = -5;
+                break;
+            }
+            case 2: {//-f
+                res = "-f";
+                mask[5] = -6;
+                break;
+            }
+            case 1: {//-g
+                res = "-g";
+                mask[5] = -7;
+                break;
+            }
+            case 0: {//-h
+                res = "-h";
+                mask[5] = -8;
+                break;
+            }
+        }
+
+        bit6Label.setText(res);
+        processImage();
+    }
+
+    void bit7() {
+        String res = "";
+        switch (bit7Slider.getValue()) {
+            case 17: {//0
+                res = "0";
+                mask[6] = 0;
+                break;
+            }
+            case 16: {//1
+                res = "1";
+                mask[6] = 9;
+                break;
+            }
+            case 15: {//a
+                res = "a";
+                mask[6] = 1;
+                break;
+            }
+            case 14: {//b
+                res = "b";
+                mask[6] = 2;
+                break;
+            }
+            case 13: {//c
+                res = "c";
+                mask[6] = 3;
+                break;
+            }
+            case 12: {//d
+                res = "d";
+                mask[6] = 4;
+                break;
+            }
+            case 11: {//e
+                res = "e";
+                mask[6] = 5;
+                break;
+            }
+            case 10: {//f
+                res = "f";
+                mask[6] = 6;
+                break;
+            }
+            case 9: {//g
+                res = "g";
+                mask[6] = 7;
+                break;
+            }
+            case 8: {//h
+                res = "h";
+                mask[6] = 8;
+                break;
+            }
+            case 7: {//-a
+                res = "-a";
+                mask[6] = -1;
+                break;
+            }
+            case 6: {//-b
+                res = "-b";
+                mask[6] = -2;
+                break;
+            }
+            case 5: {//-c
+                res = "-c";
+                mask[6] = -3;
+                break;
+            }
+            case 4: {//-d
+                res = "-d";
+                mask[6] = -4;
+                break;
+            }
+            case 3: {//-e
+                res = "-e";
+                mask[6] = -5;
+                break;
+            }
+            case 2: {//-f
+                res = "-f";
+                mask[6] = -6;
+                break;
+            }
+            case 1: {//-g
+                res = "-g";
+                mask[6] = -7;
+                break;
+            }
+            case 0: {//-h
+                res = "-h";
+                mask[6] = -8;
+                break;
+            }
+        }
+
+        bit7Label.setText(res);
+        processImage();
+    }
+
+    void bit8() {
+        String res = "";
+        switch (bit8Slider.getValue()) {
+            case 17: {//0
+                res = "0";
+                mask[7] = 0;
+                break;
+            }
+            case 16: {//1
+                res = "1";
+                mask[7] = 9;
+                break;
+            }
+            case 15: {//a
+                res = "a";
+                mask[7] = 1;
+                break;
+            }
+            case 14: {//b
+                res = "b";
+                mask[7] = 2;
+                break;
+            }
+            case 13: {//c
+                res = "c";
+                mask[7] = 3;
+                break;
+            }
+            case 12: {//d
+                res = "d";
+                mask[7] = 4;
+                break;
+            }
+            case 11: {//e
+                res = "e";
+                mask[7] = 5;
+                break;
+            }
+            case 10: {//f
+                res = "f";
+                mask[7] = 6;
+                break;
+            }
+            case 9: {//g
+                res = "g";
+                mask[7] = 7;
+                break;
+            }
+            case 8: {//h
+                res = "h";
+                mask[7] = 8;
+                break;
+            }
+            case 7: {//-a
+                res = "-a";
+                mask[7] = -1;
+                break;
+            }
+            case 6: {//-b
+                res = "-b";
+                mask[7] = -2;
+                break;
+            }
+            case 5: {//-c
+                res = "-c";
+                mask[7] = -3;
+                break;
+            }
+            case 4: {//-d
+                res = "-d";
+                mask[7] = -4;
+                break;
+            }
+            case 3: {//-e
+                res = "-e";
+                mask[7] = -5;
+                break;
+            }
+            case 2: {//-f
+                res = "-f";
+                mask[7] = -6;
+                break;
+            }
+            case 1: {//-g
+                res = "-g";
+                mask[7] = -7;
+                break;
+            }
+            case 0: {//-h
+                res = "-h";
+                mask[7] = -8;
+                break;
+            }
+        }
+
+        bit8Label.setText(res);
+        processImage();
+    }
+
+    private void bit1SliderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bit1SliderKeyReleased
+        bit1();
+    }//GEN-LAST:event_bit1SliderKeyReleased
+
+    private void bit1SliderMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bit1SliderMouseDragged
+        bit1();
+    }//GEN-LAST:event_bit1SliderMouseDragged
+
+    private void bit2SliderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bit2SliderKeyReleased
+        bit2();
+    }//GEN-LAST:event_bit2SliderKeyReleased
+
+    private void bit2SliderMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bit2SliderMouseDragged
+        bit2();
+    }//GEN-LAST:event_bit2SliderMouseDragged
+
+    private void bit3SliderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bit3SliderKeyReleased
+        bit3();
+    }//GEN-LAST:event_bit3SliderKeyReleased
+
+    private void bit3SliderMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bit3SliderMouseDragged
+        bit3();
+    }//GEN-LAST:event_bit3SliderMouseDragged
+
+    private void bit4SliderMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bit4SliderMouseDragged
+        bit4();
+    }//GEN-LAST:event_bit4SliderMouseDragged
+
+    private void bit4SliderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bit4SliderKeyReleased
+        bit4();
+    }//GEN-LAST:event_bit4SliderKeyReleased
+
+    private void bit5SliderMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bit5SliderMouseDragged
+        bit5();
+    }//GEN-LAST:event_bit5SliderMouseDragged
+
+    private void bit5SliderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bit5SliderKeyReleased
+        bit5();
+    }//GEN-LAST:event_bit5SliderKeyReleased
+
+    private void bit6SliderMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bit6SliderMouseDragged
+        bit6();
+    }//GEN-LAST:event_bit6SliderMouseDragged
+
+    private void bit6SliderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bit6SliderKeyReleased
+        bit6();
+    }//GEN-LAST:event_bit6SliderKeyReleased
+
+    private void bit7SliderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bit7SliderKeyReleased
+        bit7();
+    }//GEN-LAST:event_bit7SliderKeyReleased
+
+    private void bit7SliderMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bit7SliderMouseDragged
+        bit7();
+    }//GEN-LAST:event_bit7SliderMouseDragged
+
+    private void bit8SliderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bit8SliderKeyReleased
+        bit8();
+    }//GEN-LAST:event_bit8SliderKeyReleased
+
+    private void bit8SliderMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bit8SliderMouseDragged
+        bit8();
+    }//GEN-LAST:event_bit8SliderMouseDragged
 
     /**
      * @param args the command line arguments
@@ -471,19 +1443,14 @@ public class mainForm extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(mainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(mainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(mainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(mainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new mainForm().setVisible(true);
             }
